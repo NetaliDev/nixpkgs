@@ -18,14 +18,7 @@
     pkgs.ccrypt
     pkgs.cryptsetup # needed for dm-crypt volumes
 
-    # Some text editors.
-    (pkgs.vim.customize {
-      name = "vim";
-      vimrcConfig.packages.default = {
-        start = [ pkgs.vimPlugins.vim-nix ];
-      };
-      vimrcConfig.customRC = "syntax on";
-    })
+    pkgs.vim
 
     # Some networking tools.
     pkgs.fuse

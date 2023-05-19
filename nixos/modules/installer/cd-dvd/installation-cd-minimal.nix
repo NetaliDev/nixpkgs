@@ -20,5 +20,17 @@
 
   fonts.fontconfig.enable = lib.mkForce false;
 
+  networking.hostName = "netalis-nixos-iso";
+
+  services.openssh.enable = true;
+  services.openssh.settings.PasswordAuthentication = false;
+  users.users.nixos.openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOV4f3/OcNQIHqomvH0nGLDmXDlrO/u7JKE9Fgq2Vuqs me@netali.de" ];
+
+  i18n.defaultLocale = "en_US.UTF-8";
+  console = {
+    font = "Lat2-Terminus16";
+    keyMap = "de-latin1";
+  };
+
   isoImage.edition = lib.mkForce "minimal";
 }
