@@ -1681,6 +1681,8 @@ self: super: with self; {
     inherit (pkgs) secp256k1;
   };
 
+  command_runner = callPackage ../development/python-modules/command_runner { };
+
   connect-box = callPackage ../development/python-modules/connect_box { };
 
   connection-pool = callPackage ../development/python-modules/connection-pool { };
