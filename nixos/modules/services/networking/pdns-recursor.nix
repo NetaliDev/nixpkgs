@@ -18,7 +18,7 @@ let
     else if builtins.isList val then (concatMapStringsSep "," serialize val)
     else "";
 
-  configDir = pkgs.writeTextDir "recursor.conf"
+  configFile = pkgs.writeText "recursor.conf"
     (concatStringsSep "\n"
       (flip mapAttrsToList cfg.settings
         (name: val: "${name}=${serialize val}")));
@@ -185,10 +185,17 @@ in {
 
     systemd.services.pdns-recursor = {
       wantedBy = [ "multi-user.target" ];
+      reloadTriggers = [ configFile ];
 
       serviceConfig = {
-        ExecStart = [ "" "${pkgs.pdns-recursor}/bin/pdns_recursor --config-dir=${configDir}" ];
+        ExecStart = [ "" "${pkgs.pdns-recursor}/bin/pdns_recursor --config-dir=/etc/pdns-recursor" ];
       };
+    };
+
+    environment.etc."pdns-recursor/recursor.conf" = {
+      source = configFile;
+      user = "pdns-recursor";
+      group = "pdns-recursor";
     };
 
     users.users.pdns-recursor = {
