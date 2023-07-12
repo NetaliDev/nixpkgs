@@ -4969,6 +4969,8 @@ self: super: with self; {
 
   imgsize = callPackage ../development/python-modules/imgsize { };
 
+  imia = callPackage ../development/python-modules/imia { };
+
   iminuit = callPackage ../development/python-modules/iminuit { };
 
   immutabledict = callPackage ../development/python-modules/immutabledict { };
