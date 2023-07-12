@@ -7112,6 +7112,8 @@ self: super: with self; {
 
   py-eth-sig-utils = callPackage ../development/python-modules/py-eth-sig-utils { };
 
+  py-radix-sr = callPackage ../development/python-modules/py-radix-sr { };
+
   nwdiag = callPackage ../development/python-modules/nwdiag { };
 
   oasatelematics = callPackage ../development/python-modules/oasatelematics { };
