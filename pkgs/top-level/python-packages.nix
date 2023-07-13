@@ -8009,6 +8009,8 @@ self: super: with self; {
 
   python-google-nest = callPackage ../development/python-modules/python-google-nest { };
 
+  python-graphql-client = callPackage ../development/python-modules/python-graphql-client { };
+
   python-heatclient = callPackage ../development/python-modules/python-heatclient { };
 
   python-ipmi = callPackage ../development/python-modules/python-ipmi { };
