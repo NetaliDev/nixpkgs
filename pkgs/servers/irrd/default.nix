@@ -2,6 +2,9 @@
 , python3
 , fetchPypi
 , git
+, postgresql
+, postgresqlTestHook
+, redis
 }:
 
 let
@@ -85,16 +88,12 @@ buildPythonPackage rec {
   nativeCheckInputs = [
     pytestCheckHook
     git
-    pytest
-    pytest-cov
-    pytest-env
-    coverage
-    twisted
-    python-graphql-client
     pytest-asyncio
-    freezegun
     pytest-freezegun
-    sqlalchemy
+
+    redis
+    postgresql
+    postgresqlTestHook
   ];
 
   propagatedBuildInputs = [
@@ -109,7 +108,7 @@ buildPythonPackage rec {
     setproctitle
     python-daemon
     pid
-    redis
+    py.pkgs.redis
     hiredis
     coredis
     requests
@@ -129,6 +128,24 @@ buildPythonPackage rec {
     wheel
     websockets
   ] ++ uvicorn.optional-dependencies.standard;
+
+  preCheck = ''
+    redis-server &
+
+    while ! redis-cli --scan ; do
+      echo waiting for redis
+      sleep 1
+    done
+
+    export IRRD_DATABASE_URL="postgres:///$PGDATABASE"
+    export IRRD_REDIS_URL="redis://localhost/1"
+  '';
+
+  # skip tests that require internet access
+  pytestFlagsArray = [
+    "--deselect=irrd/scripts/tests/test_irr_rpsl_submit.py::Test900Command::test_020_dash_o_noop"
+    "--deselect=irrd/scripts/tests/test_irr_rpsl_submit.py::Test900Command::test_050_non_json_response"
+  ];
 
   meta = with lib; {
     description = "An IRR database server, processing IRR objects in the RPSL format";
