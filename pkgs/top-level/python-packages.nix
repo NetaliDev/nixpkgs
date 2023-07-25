@@ -3924,6 +3924,8 @@ self: super: with self; {
 
   folium = callPackage ../development/python-modules/folium { };
 
+  fontawesomefree = callPackage ../development/python-modules/fontawesomefree { };
+
   fontforge = toPythonModule (pkgs.fontforge.override {
     withPython = true;
     inherit python;
