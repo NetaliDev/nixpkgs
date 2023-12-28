@@ -4,7 +4,8 @@
 , pythonOlder
 
 # build-system
-, hatchling
+, setuptools
+, setuptools-scm
 
 # dependencies
 , beautifulsoup4
@@ -14,7 +15,7 @@
 
 buildPythonPackage rec {
   pname = "django-bootstrap5";
-  version = "23.3";
+  version = "23.4";
   format = "pyproject";
   disabled = pythonOlder "3.7";
 
@@ -22,11 +23,12 @@ buildPythonPackage rec {
     owner = "zostera";
     repo = "django-bootstrap5";
     rev = "v${version}";
-    hash = "sha256-FIwDyZ5I/FSaEiQKRfanzAGij86u8y85Wal0B4TrI7c=";
+    hash = "sha256-Rknbw0ce7D1xBCwd9iZuW77lUGWGKGtKUm94i5uHiVQ=";
   };
 
   nativeBuildInputs = [
-    hatchling
+    setuptools
+    setuptools-scm
   ];
 
   propagatedBuildInputs = [
