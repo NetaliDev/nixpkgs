@@ -3188,6 +3188,8 @@ self: super: with self; {
 
   django-raster = callPackage ../development/python-modules/django-raster { };
 
+  django-recurrence = callPackage ../development/python-modules/django-recurrence { };
+
   django-redis = callPackage ../development/python-modules/django-redis { };
 
   django-rest-auth = callPackage ../development/python-modules/django-rest-auth { };
