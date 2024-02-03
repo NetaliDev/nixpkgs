@@ -3180,6 +3180,8 @@ self: super: with self; {
 
   django-scim2 = callPackage ../development/python-modules/django-scim2 { };
 
+  django-select2 = callPackage ../development/python-modules/django-select2 { };
+
   django-shortuuidfield = callPackage ../development/python-modules/django-shortuuidfield { };
 
   django-scopes = callPackage ../development/python-modules/django-scopes { };
