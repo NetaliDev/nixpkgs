@@ -3010,6 +3010,8 @@ self: super: with self; {
 
   django-axes = callPackage ../development/python-modules/django-axes { };
 
+  django-bleach = callPackage ../development/python-modules/django-bleach { };
+
   django-bootstrap3 = callPackage ../development/python-modules/django-bootstrap3 { };
 
   django-bootstrap4 = callPackage ../development/python-modules/django-bootstrap4 { };
