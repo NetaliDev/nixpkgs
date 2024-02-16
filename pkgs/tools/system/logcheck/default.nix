@@ -26,6 +26,10 @@ stdenv.mkDerivation rec {
            -e 's|\$(run-parts --list "\$dir")|"$dir"/*|' src/logcheck
   '';
 
+  postInstall = ''
+    rm -r $out/etc/logcheck/logcheck.logfiles.d
+  '';
+
   makeFlags = [
     "DESTDIR=$(out)"
     "SBINDIR=sbin"
