@@ -17,9 +17,7 @@ pushd $TARGET_DIR
 
 rm -rf \
     ./source.json \
-    ./gemset.nix \
-    ./yarn.lock \
-    ./yarn.nix
+    ./gemset.nix
 
 
 # Check that working directory was created.
@@ -54,9 +52,6 @@ pushd $SOURCE_DIR
 
 echo ":: Creating gemset.nix"
 bundix --lockfile=./Gemfile.lock  --gemfile=./Gemfile --gemset=$TARGET_DIR/gemset.nix
-
-# needed to avoid import from derivation
-jq --arg VERSION "$VERSION" '. += {name: "Zammad", version: $VERSION}' package.json > $TARGET_DIR/package.json
 
 popd
 popd

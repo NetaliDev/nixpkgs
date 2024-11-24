@@ -6,8 +6,6 @@
 , xidel
 , jq
 , nix-prefetch-github
-, yarn
-, yarn2nix
 }:
 
 stdenv.mkDerivation rec {
@@ -27,8 +25,6 @@ stdenv.mkDerivation rec {
     xidel
     jq
     nix-prefetch-github
-    yarn
-    yarn2nix
   ];
 
   meta = {

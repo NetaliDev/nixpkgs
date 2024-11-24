@@ -1,4 +1,4 @@
-{ stdenv
+{ stdenvNoCC
 , lib
 , nixosTests
 , fetchFromGitHub
@@ -15,7 +15,7 @@
 , moreutils
 , nodejs
 , yarn
-, yarn2nix-moretea
+, yarnConfigHook
 , cacert
 , redis
 , dataDir ? "/var/lib/zammad"
@@ -79,27 +79,8 @@ let
     };
   };
 
-  yarnEnv = yarn2nix-moretea.mkYarnPackage {
-    pname = "${pname}-node-modules";
-    inherit version src;
-    packageJSON = ./package.json;
-
-    offlineCache = fetchYarnDeps {
-      yarnLock = "${src}/yarn.lock";
-      hash = "sha256-3DuTirYd6lAQd5PRbdOa/6QaMknIqNMTVnxEESF0N/c=";
-    };
-
-    packageResolutions.minimatch = "9.0.3";
-
-    yarnPreBuild = ''
-      mkdir -p deps/Zammad
-      cp -r ${src}/.eslint-plugin-zammad deps/Zammad/.eslint-plugin-zammad
-      chmod -R +w deps/Zammad/.eslint-plugin-zammad
-    '';
-  };
-
 in
-stdenv.mkDerivation {
+stdenvNoCC.mkDerivation {
   inherit pname version src;
 
   buildInputs = [
@@ -113,16 +94,19 @@ stdenv.mkDerivation {
   ];
 
   nativeBuildInputs = [
+    yarnConfigHook
     redis
     postgresql
   ];
 
   RAILS_ENV = "production";
 
-  buildPhase = ''
-    node_modules=${yarnEnv}/libexec/Zammad/node_modules
-    ${yarn2nix-moretea.linkNodeModulesHook}
+  yarnOfflineCache = fetchYarnDeps {
+    yarnLock = "${src}/yarn.lock";
+    hash = "sha256-3DuTirYd6lAQd5PRbdOa/6QaMknIqNMTVnxEESF0N/c=";
+  };
 
+  buildPhase = ''
     mkdir redis-work
     pushd redis-work
     redis-server &
@@ -153,7 +137,7 @@ stdenv.mkDerivation {
   '';
 
   passthru = {
-    inherit rubyEnv yarnEnv;
+    inherit rubyEnv;
     updateScript = [ "${callPackage ./update.nix {}}/bin/update.sh" pname (toString ./.) ];
     tests = { inherit (nixosTests) zammad; };
   };
