@@ -2,7 +2,6 @@
   lib,
   buildNpmPackage,
   fetchFromGitHub,
-  nodejs_20,
   jre_headless,
   protobuf_30,
   xmlstarlet,
@@ -18,9 +17,6 @@ let
   frontend = buildNpmPackage {
     pname = "dependency-track-frontend";
     inherit version;
-
-    # TODO: pinned due to build error on node 22
-    nodejs = nodejs_20;
 
     src = fetchFromGitHub {
       owner = "DependencyTrack";
